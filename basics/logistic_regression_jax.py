@@ -7,7 +7,6 @@ import time
 def sigmoid(x):
     return 1 / (1 + jnp.exp(-x))
 
-
 @jit
 def loss(weights, features, labels):
     def loss_per_sample(feature, label):
@@ -48,10 +47,18 @@ start_time = time.time()
 trained_weights = train_logistic_regression(weights, features, labels)
 #end timer
 end_time = time.time()
-print(f"Time taken: {end_time - start_time} seconds")
+print(f"Time taken: {end_time - start_time} seconds. includes jit compilation")
+
+
+start_time = time.time()
+trained_weights = train_logistic_regression(weights, features, labels)
+#end timer
+end_time = time.time()
+print(f"Time taken: {end_time - start_time} seconds. no jit compilation")
 
 #time taken without jit: 2.92 seconds
-#time taken with jit: 0.096 seconds
+#time taken with jit (including compilation): 0.096 seconds
+#time take with jit (already compiled): 2.3e-5
 
 print(trained_weights)
 
